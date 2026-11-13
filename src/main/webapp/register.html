@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Create account - Campus Lost &amp; Found Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@700;800&display=swap">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    <script src="js/validate.js" defer></script>
+</head>
+<body class="auth">
+<aside class="auth-side">
+    <span class="brand">
+        <img class="brand-mark" src="img/gmu-logo.png" alt="GM University logo" width="36" height="36">
+        Campus Lost &amp; Found
+    </span>
+    <span class="eyebrow">For students, faculty and visitors</span>
+    <h1>One place for everything lost and found on campus.</h1>
+    <ol class="how">
+        <li><span><b>Create an account</b> with your name, email and mobile number.</span></li>
+        <li><span><b>Post a report</b> the moment you lose or find something.</span></li>
+        <li><span><b>Track your claims</b> and see the office's decision and remarks.</span></li>
+    </ol>
+</aside>
+
+<main class="auth-main">
+    <section class="auth-card">
+        <div>
+            <h2>Create your account</h2>
+            <p class="muted">It takes less than a minute.</p>
+        </div>
+        <p id="msg" class="alert error" role="alert" hidden></p>
+
+        <!-- HTML form: data goes to RegisterServlet using HTTP POST -->
+        <form action="register" method="post" onsubmit="return validateRegister(this)" novalidate>
+            <p class="form-error alert error" role="alert" hidden></p>
+            <div class="field">
+                <label for="fullName">Full name</label>
+                <input id="fullName" type="text" name="fullName" maxlength="100" autocomplete="name" required>
+            </div>
+            <div class="field">
+                <label for="email">Email</label>
+                <input id="email" type="email" name="email" maxlength="100" autocomplete="email" placeholder="you@campus.edu" required>
+            </div>
+            <div class="field">
+                <label for="mobile">Mobile number</label>
+                <input id="mobile" type="tel" name="mobile" maxlength="10" inputmode="numeric" placeholder="10-digit number" required>
+                <small class="hint">Shown to the office only, so they can contact you about a claim.</small>
+            </div>
+            <div class="field">
+                <label for="password">Password</label>
+                <input id="password" type="password" name="password" autocomplete="new-password" required>
+                <small class="hint">At least 6 characters.</small>
+            </div>
+            <div class="field">
+                <label for="confirm">Confirm password</label>
+                <input id="confirm" type="password" name="confirm" autocomplete="new-password" required>
+            </div>
+            <button type="submit" class="btn block">Create account</button>
+        </form>
+        <p class="switch">Already registered? <a href="login">Log in</a></p>
+        <a class="signature" href="https://github.com/Aniket886" target="_blank" rel="noopener noreferrer" title="Aniket Tegginamath on GitHub">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+            <span>Developed by <b>Aniket Tegginamath</b></span>
+        </a>
+    </section>
+</main>
+<script>
+    // show the server's message passed in the URL (?error=exists)
+    var e = new URLSearchParams(location.search).get("error");
+    if (e) {
+        var m = document.getElementById("msg");
+        m.textContent = e === "exists" ? "That email is already registered. Log in instead, or use another email."
+                                       : "Some details weren't valid. Check each field and try again.";
+        m.hidden = false;
+    }
+</script>
+</body>
+</html>

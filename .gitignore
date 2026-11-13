@@ -1,0 +1,11 @@
+# Eclipse / Maven build output
+build/
+target/
+bin/
+
+# IDE and OS clutter
+.metadata/
+Servers/
+*.log
+Thumbs.db
+.DS_Store
