@@ -17,11 +17,16 @@ Advanced Java Programming · Assignment-1 · MCA Semester I · GM University, Da
 
 [About](#about) ·
 [Features](#features) ·
+[Screenshots](#screenshots) ·
 [Architecture](#architecture) ·
 [Database](#database-design) ·
 [Getting started](#getting-started) ·
 [Testing](#testing) ·
 [Author](#author)
+
+<br>
+
+<img src="docs/screenshots/03-home.png" alt="Student home page with recently reported items shown as lost-and-found tags" width="860">
 
 </div>
 
@@ -116,6 +121,78 @@ The application follows the **Model-View-Controller (MVC)** architecture:
 - Light and dark mode, and a layout that works on phones.
 - Every item appears as a lost-and-found tag with a reference number such as `LF-0042`.
 - Form errors show inside the form. Every rule is checked again on the server.
+
+---
+
+## Screenshots
+
+> The screenshots use sample data: 9 reports and 4 claims from students and visitors.
+
+### Sign in
+
+<table>
+<tr>
+<td width="50%"><img src="docs/screenshots/01-login.png" alt="Login page"></td>
+<td width="50%"><img src="docs/screenshots/02-register.png" alt="Registration page"></td>
+</tr>
+<tr>
+<td align="center"><sub><b>Login</b>: GM University branding and the three-step "how it works" guide</sub></td>
+<td align="center"><sub><b>Register</b>: client-side validation with inline errors</sub></td>
+</tr>
+</table>
+
+### Student
+
+<table>
+<tr>
+<td width="50%"><img src="docs/screenshots/04-search.png" alt="Search results filtered to found items"></td>
+<td width="50%"><img src="docs/screenshots/05-report-lost.png" alt="Report a lost item form"></td>
+</tr>
+<tr>
+<td align="center"><sub><b>Search</b>: keyword, category and type filters (HTTP GET)</sub></td>
+<td align="center"><sub><b>Report an item</b>: switch between lost and found</sub></td>
+</tr>
+<tr>
+<td width="50%"><img src="docs/screenshots/06-item-claim.png" alt="Item details with ownership claim form"></td>
+<td width="50%"><img src="docs/screenshots/07-my-claims.png" alt="My claims with status and office remarks"></td>
+</tr>
+<tr>
+<td align="center"><sub><b>Item details</b>: submit an ownership claim with proof</sub></td>
+<td align="center"><sub><b>My claims</b>: Pending, Approved or Rejected, with the office's remarks</sub></td>
+</tr>
+</table>
+
+### Administrator
+
+<table>
+<tr>
+<td width="50%"><img src="docs/screenshots/08-admin-dashboard.png" alt="Administrator dashboard with summary tiles"></td>
+<td width="50%"><img src="docs/screenshots/10-admin-claims.png" alt="Claim review with approve and reject"></td>
+</tr>
+<tr>
+<td align="center"><sub><b>Dashboard</b>: summary from the <code>sp_item_summary</code> stored procedure</sub></td>
+<td align="center"><sub><b>Claim review</b>: approve or reject with verification remarks</sub></td>
+</tr>
+<tr>
+<td colspan="2"><img src="docs/screenshots/09-admin-reports.png" alt="All reports with filters, status update and delete"></td>
+</tr>
+<tr>
+<td colspan="2" align="center"><sub><b>All reports</b>: filter, update the recovery status, remove duplicates</sub></td>
+</tr>
+</table>
+
+### Dark mode and phone
+
+<table>
+<tr>
+<td width="68%"><img src="docs/screenshots/11-home-dark.png" alt="Home page in dark mode"></td>
+<td width="32%"><img src="docs/screenshots/12-mobile-home.png" alt="Home page on a phone"></td>
+</tr>
+<tr>
+<td align="center"><sub><b>Dark mode</b>: follows the system theme</sub></td>
+<td align="center"><sub><b>Phone</b>: collapsible menu and stacked layout</sub></td>
+</tr>
+</table>
 
 ---
 
@@ -238,6 +315,7 @@ CampusLostFound/
 ├── assets/gmulogo1.png                  University logo (source image)
 ├── database/campus_lost_found.sql       Creates the database, tables, procedure and sample data
 ├── deploy/CampusLostFound.war           Ready-to-deploy build
+├── docs/screenshots/                    App screenshots used in this README
 ├── pom.xml                              Optional Maven build (run without Eclipse)
 ├── .classpath  .project  .settings/     Eclipse Dynamic Web Project files
 └── src/main/
