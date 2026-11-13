@@ -22,6 +22,7 @@ Advanced Java Programming · Assignment-1 · MCA Semester I · GM University, Da
 [Database](#database-design) ·
 [Getting started](#getting-started) ·
 [Testing](#testing) ·
+[Report (PDF)](docs/report/Assignment-1%20Report.pdf) ·
 [Author](#author)
 
 <br>
@@ -58,6 +59,7 @@ The application follows the **Model-View-Controller (MVC)** architecture:
 | **Guide** | Mr. Rajashekhara G C, Faculty of Computing &amp; IT |
 | **Developed by** | [Aniket C Tegginamath](https://github.com/Aniket886) |
 | **Academic year** | 2026–27 |
+| **Assignment report** | [Assignment-1 Report.pdf](docs/report/Assignment-1%20Report.pdf) (42 pages: design, implementation, screens, 31 test cases, deployment) |
 
 ---
 
@@ -315,6 +317,7 @@ CampusLostFound/
 ├── assets/gmulogo1.png                  University logo (source image)
 ├── database/campus_lost_found.sql       Creates the database, tables, procedure and sample data
 ├── deploy/CampusLostFound.war           Ready-to-deploy build
+├── docs/report/Assignment-1 Report.pdf  Full assignment report (PDF)
 ├── docs/screenshots/                    App screenshots used in this README
 ├── pom.xml                              Optional Maven build (run without Eclipse)
 ├── .classpath  .project  .settings/     Eclipse Dynamic Web Project files
@@ -430,7 +433,7 @@ Tomcat 9 uses the older `javax.servlet` package. To use it:
 
 ## Testing
 
-The application was tested module by module, then end to end, following an item from its report to its recovery. All **27 test cases** in the assignment report pass.
+The application was tested module by module, then end to end, following an item from its report to its recovery. All **31 test cases** in the [assignment report](docs/report/Assignment-1%20Report.pdf) pass.
 
 | Area | Cases | What was verified |
 |---|---|---|
@@ -442,6 +445,7 @@ The application was tested module by module, then end to end, following an item 
 | Session | TC 22–24 | Login required, user → `/admin` gives 403, logout invalidates the session |
 | JDBC | TC 25 | Transaction on approval updates the claim, the item and other claims together |
 | Security | TC 26–27 | SQL injection in login refused; `<script>` shown as plain text |
+| Server-side checks | TC 28–31 | Duplicate claim, short proof, invalid status (HTTP 400) and future date are refused with JavaScript off |
 
 ### Expected output achieved
 
