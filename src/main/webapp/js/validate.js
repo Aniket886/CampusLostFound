@@ -54,6 +54,23 @@ function validateClaim(f) {
     return true;
 }
 
+function validateProfile(f) {
+    if (f.fullName.value.trim().length < 3)    return fail(f, "fullName", "Enter your full name (at least 3 letters).");
+    if (!/^\S+@\S+\.\S+$/.test(f.email.value.trim())) return fail(f, "email", "Enter a valid email address.");
+    if (!/^[0-9]{10}$/.test(f.mobile.value.trim())) return fail(f, "mobile", "Mobile number must be exactly 10 digits.");
+    return true;
+}
+
+function validatePassword(f) {
+    if (f.currentPassword.value === "")         return fail(f, "currentPassword", "Enter your current password.");
+    if (f.newPassword.value.length < 6)         return fail(f, "newPassword", "Use a new password of at least 6 characters.");
+    if (f.newPassword.value === f.currentPassword.value)
+                                                return fail(f, "newPassword", "The new password must be different from the current one.");
+    if (f.newPassword.value !== f.confirmPassword.value)
+                                                return fail(f, "confirmPassword", "The two new passwords don't match.");
+    return true;
+}
+
 // Clear a field's red outline as soon as the user edits it
 document.addEventListener("input", function (e) {
     if (e.target.hasAttribute && e.target.hasAttribute("aria-invalid")) e.target.removeAttribute("aria-invalid");
