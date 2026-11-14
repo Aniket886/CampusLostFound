@@ -23,11 +23,13 @@
                 <a href="<%= response.encodeURL(ftCtx + "/admin") %>">Dashboard</a>
                 <a href="<%= response.encodeURL(ftCtx + "/admin?view=items") %>">All reports</a>
                 <a href="<%= response.encodeURL(ftCtx + "/admin?view=claims") %>">Ownership claims</a>
+                <a href="<%= response.encodeURL(ftCtx + "/profile") %>">Profile settings</a>
             <% } else { %>
                 <a href="<%= response.encodeURL(ftCtx + "/search") %>">Search items</a>
                 <a href="<%= response.encodeURL(ftCtx + "/report?type=Lost") %>">Report a lost item</a>
                 <a href="<%= response.encodeURL(ftCtx + "/report?type=Found") %>">Report a found item</a>
                 <a href="<%= response.encodeURL(ftCtx + "/claims") %>">My claims</a>
+                <a href="<%= response.encodeURL(ftCtx + "/profile") %>">Profile settings</a>
             <% } %>
         </nav>
 

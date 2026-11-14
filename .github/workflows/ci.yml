@@ -1,0 +1,46 @@
+name: CI
+
+# Runs on every pull request and on every push to main.
+# A PR can be merged only after this build is green.
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Compile and package WAR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      - name: Build (compile servlets, package WAR)
+        run: mvn -B -ntp clean package
+
+      - name: Check the SQL script and web.xml are present
+        run: |
+          test -f database/campus_lost_found.sql
+          test -f src/main/webapp/WEB-INF/web.xml
+
+      - name: Upload WAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: CampusLostFound-war
+          path: target/CampusLostFound.war
+          retention-days: 14

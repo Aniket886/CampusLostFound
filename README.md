@@ -22,6 +22,7 @@ Advanced Java Programming · Assignment-1 · MCA Semester I · GM University, Da
 [Database](#database-design) ·
 [Getting started](#getting-started) ·
 [Testing](#testing) ·
+[Workflow](#development-workflow) ·
 [Report (PDF)](docs/report/Assignment-1%20Report.pdf) ·
 [Author](#author)
 
@@ -78,6 +79,7 @@ The application follows the **Model-View-Controller (MVC)** architecture:
 - Submit an ownership claim with proof
 - Track the status of claims and the admin's remarks
 - View your own reports
+- Profile settings: edit name, email and mobile, change password, pick a theme
 - Log out (session invalidation)
 
 </td>
@@ -120,7 +122,8 @@ The application follows the **Model-View-Controller (MVC)** architecture:
 ### Interface
 
 - A clean design built with plain CSS design tokens, with no UI framework.
-- Light and dark mode, and a layout that works on phones.
+- Light and dark mode with a moon / sun toggle in the top bar (and on the login pages). The choice is saved in the browser; until you pick one, the portal follows the system theme.
+- A layout that works on phones.
 - Every item appears as a lost-and-found tag with a reference number such as `LF-0042`.
 - Form errors show inside the form. Every rule is checked again on the server.
 
@@ -191,7 +194,7 @@ The application follows the **Model-View-Controller (MVC)** architecture:
 <td width="32%"><img src="docs/screenshots/12-mobile-home.png" alt="Home page on a phone"></td>
 </tr>
 <tr>
-<td align="center"><sub><b>Dark mode</b>: follows the system theme</sub></td>
+<td align="center"><sub><b>Dark mode</b>: toggle in the top bar, or follow the system theme</sub></td>
 <td align="center"><sub><b>Phone</b>: collapsible menu and stacked layout</sub></td>
 </tr>
 </table>
@@ -261,6 +264,7 @@ stateDiagram-v2
 | `/item?id=n` | GET | `ItemDetailsServlet` | Item details and claim form | User |
 | `/claims` | GET / POST | `ClaimServlet` | My claims / submit claim | User |
 | `/myReports` | GET | `MyReportsServlet` | My lost and found reports | User |
+| `/profile` | GET / POST | `ProfileServlet` | Profile settings: details, password, theme | User / Admin |
 | `/admin?view=items\|claims` | GET / POST | `AdminServlet` | Dashboard, reports, claim decisions | Admin |
 | `/logout` | GET | `LogoutServlet` | End session | User |
 
@@ -320,21 +324,22 @@ CampusLostFound/
 ├── docs/report/Assignment-1 Report.pdf  Full assignment report (PDF)
 ├── docs/screenshots/                    App screenshots used in this README
 ├── pom.xml                              Optional Maven build (run without Eclipse)
+├── .github/                             CI workflow and pull request template
 ├── .classpath  .project  .settings/     Eclipse Dynamic Web Project files
 └── src/main/
     ├── java/com/campus/lostfound/
     │   ├── bean/        User, Item, Claim                         (Model: data)
     │   ├── dao/         DBConnection, UserDAO, ItemDAO, ClaimDAO   (Model: JDBC)
-    │   ├── controller/  10 servlets                               (Controller)
+    │   ├── controller/  11 servlets                               (Controller)
     │   └── util/        PasswordUtil, SessionUtil, HtmlUtil       (Helpers)
     └── webapp/
         ├── index.jsp  login.jsp  register.html  error.jsp
         ├── includes/    header.jsp  footer.jsp
-        ├── css/style.css   js/validate.js   img/
+        ├── css/style.css   js/validate.js   js/theme.js   img/
         └── WEB-INF/
             ├── web.xml
             ├── lib/mysql-connector-j-8.4.0.jar
-            └── views/   home, search, reportItem, itemDetails,
+            └── views/   home, search, reportItem, itemDetails, profile,
                          myReports, myClaims, admin/{dashboard, items, claims}
 ```
 
@@ -415,7 +420,7 @@ Tomcat 9 uses the older `javax.servlet` package. To use it:
 | Requirement | Implementation |
 |---|---|
 | **A. HTML forms and HTTP** | Registration, login, report, search and claim forms. `validate.js` checks input in the browser. GET for reads (bookmarkable searches) and POST for changes, with Post-Redirect-Get and 403 / 404 / 400 status pages. |
-| **B. Java Servlets** | 10 servlets. `LoginServlet` is mapped in `web.xml` to show `init()`, `service()` and `destroy()`, a `ServletConfig` init-param and `load-on-startup`. |
+| **B. Java Servlets** | 11 servlets. `LoginServlet` is mapped in `web.xml` to show `init()`, `service()` and `destroy()`, a `ServletConfig` init-param and `load-on-startup`. |
 | **C. JSP** | Page and include directives; expressions, scriptlets and declarations, including `jspInit()` / `jspDestroy()`. `<jsp:include>`, `<jsp:forward>`, and all implicit objects, including `exception` in `error.jsp`. |
 | **D. JavaBeans and MVC** | Serializable `User`, `Item` and `Claim` beans. Servlet → DAO/Bean → `request.setAttribute()` → JSP on every page. |
 | **E. JDBC** | `Connection`, `Statement`, `PreparedStatement`, `CallableStatement` and `ResultSet`. INSERT, SELECT, UPDATE and DELETE. Transactions with `commit()` / `rollback()` for claim submission and decisions. |
@@ -472,6 +477,28 @@ The application was tested module by module, then end to end, following an item 
 | CO4 | Integration of JavaBeans, Servlets and JSP in the MVC architecture |
 | CO5 | JDBC connectivity, SQL CRUD operations, stored procedure and transactions |
 | CO6 | A complete database-driven web application using Advanced Java technologies |
+
+---
+
+## Development workflow
+
+`main` always holds working code. Every change goes through a short-lived branch and a pull request.
+
+```mermaid
+flowchart LR
+    A["Branch from main<br/>feature/... or fix/..."] --> B["Commit small,<br/>focused changes"]
+    B --> C["Push and open<br/>a pull request"]
+    C --> D{"CI: mvn package<br/>passes?"}
+    D -- no --> B
+    D -- yes --> E["Review, then<br/>merge to main"]
+    E --> F["Delete the branch"]
+```
+
+1. **Branch:** `git switch -c feature/<short-name>` (use `fix/`, `docs/` or `chore/` for other kinds of change).
+2. **Commit:** keep each commit to one idea, with a message in the imperative ("Add profile settings page").
+3. **Pull request:** push the branch and open a PR. The [PR template](.github/pull_request_template.md) lists the checks: light and dark theme, phone width, and server-side validation.
+4. **CI:** [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs on every PR and every push to `main`. It compiles the servlets with JDK 17, packages `CampusLostFound.war` and keeps the WAR as a downloadable build artifact for 14 days.
+5. **Merge:** merge once CI is green, then delete the branch.
 
 ---
 
